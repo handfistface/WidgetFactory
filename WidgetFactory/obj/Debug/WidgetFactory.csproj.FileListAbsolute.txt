@@ -1,1 +1,2 @@
 D:\App_Dev\WidgetFactory\WidgetFactory\bin\Debug\WidgetFactory.exe.config
+C:\Users\jdk\Documents\Temp\WidgetFactory\WidgetFactory\bin\Debug\WidgetFactory.exe.config
