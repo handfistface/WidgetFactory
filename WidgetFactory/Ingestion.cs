@@ -40,7 +40,8 @@ namespace WidgetFactory
                 while(!sr.EndOfStream)
                 {
                     string s_Line = sr.ReadLine();      //read a line, this will be used to describe the object
-                    char[] ca_Delims = { ' ', ',', ';', ':' };      //used to split up the line that was just read
+                    s_Line = s_Line.ToLower();      //convert the string to lower case because we don't want our storage to get confused
+                    char[] ca_Delims = { ',', ';', ':' };      //used to split up the line that was just read
                     string[] sa_Split = s_Line.Split(ca_Delims);        //split the string that was just read
                     //verify that there are components to add to the object construction
                     if (sa_Split.Length <= 1)
@@ -48,7 +49,7 @@ namespace WidgetFactory
                         //then there will be a problem with constructing the object
                         //an object cannot be by itself unless it is a component
                         if (sa_Split.Length == 1)
-                            Util.rtxtWriteLine("Error while parsing the object construction file." + sa_Split[0] + " must have at least one component");
+                            Util.rtxtWriteLine("Error while parsing the object construction file. [" + sa_Split[0] + "] must have at least one component");
                         else
                             Util.rtxtWriteLine("Error while parsing the object construction file. Object must have at least one component");
                         continue;       //continue to the next object to process
@@ -70,6 +71,12 @@ namespace WidgetFactory
                     //iterate through the components and add each one to the list of components
                     for(int i=1; i < sa_Split.Length; i++)
                     {
+                        //determine if this is going to be an empty string, sometimes the split adds an empty string
+                        if(sa_Split[i] == "")
+                        {
+                            //then just continue onto the next item in the split string
+                            continue;
+                        }
                         //if this is an integer then skip this and examine the next object, an integer indicates multiple objects as components
                         int i_HowMany;      //indicates how many components will be processed
                         if(int.TryParse(sa_Split[i], out i_HowMany))
@@ -83,6 +90,8 @@ namespace WidgetFactory
                                 continue;       //continue to the next line, don't bother adding this object to the list
                             }
                             i++;        //increment the indexer
+                            while (i < sa_Split.Length && sa_Split[i] == "")
+                                i++;
                         }
                         else
                         {
@@ -129,10 +138,10 @@ namespace WidgetFactory
         /// 2 Motorcycle, Car, 3 Truck
         /// </summary>
         /// <param name="fi_FileToConsume">The FileInfo object which describes the file that will be ingested</param>
-        /// <returns></returns>
-        public static Stack<FactoryObject> IngestBuildOrderFile(FileInfo fi_FileToConsume)
+        /// <returns>A queue of items to build</returns>
+        public static Queue<FactoryObject> IngestBuildOrderFile(FileInfo fi_FileToConsume)
         {
-            Stack<FactoryObject> sfo_BuildOrder = new Stack<FactoryObject>();       //stack which contains the build order
+            Queue<FactoryObject> qfo_BuildOrder = new Queue<FactoryObject>();       //stack which contains the build order
             //use a stream reader to read the contents of the file
             using (StreamReader sr = new StreamReader(fi_FileToConsume.FullName))
             {
@@ -145,9 +154,40 @@ namespace WidgetFactory
                     //loop through the array of strings that will be processed
                     for(int i=0; i < sa_Split.Length; i++)
                     {
-
+                        //determine if we're looking at an empty string, sometimes splitting up the string can get messy and return empty strings
+                        if (sa_Split[i] == "")
+                            continue;       //just continue onto the next string
+                        //determine if the currently viewing string is an integer
+                        int i_HowMany;      //the count of how many objects to push into the stack
+                        if (int.TryParse(sa_Split[i], out i_HowMany))
+                        {
+                            //then the parse succeeded, determine if there is enough room at the end of the array to adjust the indexer
+                            if ((i + 1) >= sa_Split.Length)
+                            {
+                                //then the digit is at the end of the line, it should be ignored and the next line should be read
+                                Util.rtxtWriteLine("Error while parsing line of build order file. Integer at end of line, skipping line.");
+                                break;      //break out of the wrapping for loop which is iterating through the sa_Split
+                            }
+                            //otherwise the parse succeeded and there is enough room to adjust the index variable
+                            i++;        //increment i before adjusting
+                            //again with the dirty string splitting
+                            while(i < sa_Split.Length && sa_Split[i] == "")
+                                i++;
+                        }
+                        else
+                        {
+                            //otherwise the parse failed for an integer and there is just going to be one item
+                            i_HowMany = 1;
+                        }
+                        //now that how many of the items is out of the way then we can take the sa_Split at the current index and add it to the list
+                        FactoryObject fo_Build = new FactoryObject(sa_Split[i]);        //create a factory object based on the split
+                        for(int j=0; j < i_HowMany; j++)
+                            qfo_BuildOrder.Enqueue(fo_Build);       //enqueue the item at the end of the line
                     }
+                    //continue the while loop
                 }
+                //return the queue that was created to represent the build order
+                return qfo_BuildOrder;      //return the queue
             }
         }
         #endregion public static Stack<FactoryObject> IngestBuildOrderFile(FileInfo fi_FileToConsume)

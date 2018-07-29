@@ -41,9 +41,9 @@ namespace WidgetFactory
             }
         }
         private string _s_Name;     //storage variable for s_Name
-        private object _o_NameLock;     //lock for _s_Name
+        private object _o_NameLock = new object();     //lock for _s_Name
         #endregion public string s_Name
-        private Stack<FactoryObject> sfo_Components;     //holds the components required to construct the specified item
+        private Queue<FactoryObject> qfo_Components;     //holds the components required to construct the specified item, will be in build order
 
         #region public FactoryObject(string s_Name)
         /// <summary>
@@ -56,39 +56,39 @@ namespace WidgetFactory
         public FactoryObject(string name)
         {
             s_Name = name;
-            sfo_Components = new Stack<FactoryObject>();        //create a new empty stack
+            qfo_Components = new Queue<FactoryObject>();        //create a new empty stack
         }
         #endregion public FactoryObject(string s_Name)
 
-        #region public GetComponents()
+        #region public Queue<FactoryObject> GetComponents()
         /// <summary>
-        /// Stack(FactoryObject) GetComponents()
-        /// Returns the stack of components required to build this item
-        /// Can be an empty stack
-        /// Returns a new stack compared to the one in this class, this is so that the stack access is thread safe
+        /// public Queue(FactoryObject) GetComponents()
+        /// Returns the queue of components required to build this item
+        /// Can be an empty queue
+        /// Returns a new queue compared to the one in this class, this is so that the queue access is thread safe
         /// </summary>
-        /// <returns>The stack of items that is required to build this item</returns>
-        Stack<FactoryObject> GetComponents()
+        /// <returns>The queue of items that is required to build this item</returns>
+        public Queue<FactoryObject> GetComponents()
         {
-            Stack<FactoryObject> sfo_Ret = new Stack<FactoryObject>();       //the return for this stack
+            Queue<FactoryObject> qfo_Ret = new Queue<FactoryObject>();       //the return for this stack
             //loop through each item in the stack
-            foreach(FactoryObject fo in sfo_Components)
+            foreach(FactoryObject fo in qfo_Components)
             {
-                sfo_Ret.Push(fo);       //push the factory object onto the top of the stack
+                qfo_Ret.Enqueue(fo);       //push the factory object onto the top of the stack
             }
-            return sfo_Ret;     //return the stack of factory objects
+            return qfo_Ret;     //return the stack of factory objects
         }
-        #endregion public GetComponents()
+        #endregion public Queue<FactoryObject> GetComponents()
 
         #region public void AddComponent(FactoryObject fo_Component)
         /// <summary>
         /// public void AddComponent(FactoryObject fo_Component)
-        /// This method adds an item to the stack of factory objects
+        /// This method adds an item to the queue of factory objects
         /// </summary>
         /// <param name="fo_Component">The component that will be added to the list</param>
         public void AddComponent(FactoryObject fo_Component)
         {
-            sfo_Components.Push(fo_Component);
+            qfo_Components.Enqueue(fo_Component);
         }
         #endregion public void AddComponent(FactoryObject fo_Component)
     }

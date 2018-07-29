@@ -1,0 +1,10 @@
+D:\App_Dev\WidgetFactory\WidgetFactory\bin\Release\WidgetFactory.exe.config
+D:\App_Dev\WidgetFactory\WidgetFactory\bin\Release\WidgetFactory.exe
+D:\App_Dev\WidgetFactory\WidgetFactory\bin\Release\WidgetFactory.pdb
+D:\App_Dev\WidgetFactory\WidgetFactory\obj\Release\WidgetFactory.csprojAssemblyReference.cache
+D:\App_Dev\WidgetFactory\WidgetFactory\obj\Release\WidgetFactory.Properties.Resources.resources
+D:\App_Dev\WidgetFactory\WidgetFactory\obj\Release\WidgetFactory.WidgetFactory.resources
+D:\App_Dev\WidgetFactory\WidgetFactory\obj\Release\WidgetFactory.csproj.GenerateResource.cache
+D:\App_Dev\WidgetFactory\WidgetFactory\obj\Release\WidgetFactory.csproj.CoreCompileInputs.cache
+D:\App_Dev\WidgetFactory\WidgetFactory\obj\Release\WidgetFactory.exe
+D:\App_Dev\WidgetFactory\WidgetFactory\obj\Release\WidgetFactory.pdb

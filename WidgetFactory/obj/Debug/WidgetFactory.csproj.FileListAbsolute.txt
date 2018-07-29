@@ -1,2 +1,11 @@
 D:\App_Dev\WidgetFactory\WidgetFactory\bin\Debug\WidgetFactory.exe.config
 C:\Users\jdk\Documents\Temp\WidgetFactory\WidgetFactory\bin\Debug\WidgetFactory.exe.config
+D:\App_Dev\WidgetFactory\WidgetFactory\bin\Debug\WidgetFactory.exe
+D:\App_Dev\WidgetFactory\WidgetFactory\bin\Debug\WidgetFactory.pdb
+D:\App_Dev\WidgetFactory\WidgetFactory\obj\Debug\WidgetFactory.csprojAssemblyReference.cache
+D:\App_Dev\WidgetFactory\WidgetFactory\obj\Debug\WidgetFactory.Properties.Resources.resources
+D:\App_Dev\WidgetFactory\WidgetFactory\obj\Debug\WidgetFactory.WidgetFactory.resources
+D:\App_Dev\WidgetFactory\WidgetFactory\obj\Debug\WidgetFactory.csproj.GenerateResource.cache
+D:\App_Dev\WidgetFactory\WidgetFactory\obj\Debug\WidgetFactory.csproj.CoreCompileInputs.cache
+D:\App_Dev\WidgetFactory\WidgetFactory\obj\Debug\WidgetFactory.exe
+D:\App_Dev\WidgetFactory\WidgetFactory\obj\Debug\WidgetFactory.pdb
